@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Malware Detection Results</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        table { width: 100%; max-width: 600px; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .malware { color: red; }
+        .benign { color: green; }
+        .error { color: orange; }
+    </style>
+</head>
+<body>
+    <h1>Malware Detection Results</h1>
+    {% if results %}
+        <table>
+            <tr>
+                <th>File Name</th>
+                <th>Result</th>
+            </tr>
+            {% for result in results %}
+            <tr>
+                <td>{{ result.filename }}</td>
+                <td class="{% if result.result == 'Malware' %}malware{% elif result.result == 'Benign' %}benign{% else %}error{% endif %}">
+                    {{ result.result }}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No files were processed. Please upload .exe files first.</p>
+    {% endif %}
+    <a href="{% url 'upload_file' %}">Upload More Files</a>
+</body>
+</html>
